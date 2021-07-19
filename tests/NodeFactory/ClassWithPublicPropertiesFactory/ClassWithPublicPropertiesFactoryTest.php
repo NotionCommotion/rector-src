@@ -6,11 +6,9 @@ namespace Rector\Core\Tests\NodeFactory\ClassWithPublicPropertiesFactory;
 
 use Iterator;
 use Nette\Utils\Json;
-use Nette\Utils\Strings;
 use Rector\Core\NodeFactory\ClassWithPublicPropertiesFactory;
 use Rector\Core\PhpParser\Printer\BetterStandardPrinter;
 use Rector\Testing\PHPUnit\AbstractTestCase;
-use Rector\Testing\PHPUnit\PlatformAgnosticAssertions;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

@@ -1,21 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rector\Testing\PHPUnit;
 
 use PHPUnit\Framework\Constraint\IsEqual;
-use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Relaxes phpunit assertions to be forgiving about platform issues, like directory-separators or newlines.
  */
-trait PlatformAgnosticAssertions {
+trait PlatformAgnosticAssertions
+{
     /**
      * Asserts that two variables have the same type and value.
      * Used on objects, it asserts that two variables reference
      * the same object.
-     *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     * @throws ExpectationFailedException
      *
      * @psalm-template ExpectedType
      * @psalm-param ExpectedType $expected
@@ -38,8 +37,11 @@ trait PlatformAgnosticAssertions {
      * Asserts that the contents of a string is equal
      * to the contents of a file.
      */
-    public static function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = ''): void
-    {
+    public static function assertStringEqualsFile(
+        string $expectedFile,
+        string $actualString,
+        string $message = ''
+    ): void {
         parent::assertFileExists($expectedFile, $message);
 
         $expectedString = self::getNormalizedFileContents($expectedFile);
@@ -64,14 +66,16 @@ trait PlatformAgnosticAssertions {
         static::assertThat(self::getNormalizedFileContents($actual), $constraint, $message);
     }
 
-    private static function normalize(string $string) {
+    private static function normalize(string $string)
+    {
         $string = str_replace("\r\n", "\n", $string);
-        $string = str_replace(DIRECTORY_SEPARATOR, "/", $string);
+        $string = str_replace(DIRECTORY_SEPARATOR, '/', $string);
 
         return $string;
     }
 
-    private static function getNormalizedFileContents(string $filePath): string {
+    private static function getNormalizedFileContents(string $filePath): string
+    {
         $expectedString = file_get_contents($filePath);
         return self::normalize($expectedString);
     }
