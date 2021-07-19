@@ -8,6 +8,9 @@ use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * Minor differences on windows, see https://github.com/rectorphp/rector/issues/6571
+ */
 final class SensitiveHereNowDocRectorTest extends AbstractRectorTestCase
 {
     /**
@@ -15,19 +18,7 @@ final class SensitiveHereNowDocRectorTest extends AbstractRectorTestCase
      */
     public function test(SmartFileInfo $fileInfo): void
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
-=======
-<<<<<<< HEAD
-        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
-=======
-        if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
->>>>>>> 387759e1c (skip SensitiveHereNowDocRectorTest on windows)
->>>>>>> 5b6ac363a (skip ReturnThisRemoveRectorTest on windows)
-=======
-        if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
->>>>>>> 2a06c833a (extract VendorLocationDetector and make it Windows compatible)
+        if ($this->isWindows()) {
             $this->markTestSkipped('minor differences on windows, see https://github.com/rectorphp/rector/issues/6571');
         }
 

@@ -15,11 +15,7 @@ final class ReturnThisRemoveRectorTest extends AbstractRectorTestCase
      */
     public function test(SmartFileInfo $fileInfo): void
     {
-<<<<<<< HEAD
-        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
-=======
-        if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
->>>>>>> 5b6ac363a (skip ReturnThisRemoveRectorTest on windows)
+        if ($this->isWindows()) {
             $this->markTestSkipped('minor differences on windows, see https://github.com/rectorphp/rector/issues/6571');
         }
 

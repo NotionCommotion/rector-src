@@ -108,6 +108,11 @@ abstract class AbstractRectorTestCase extends AbstractTestCase implements Rector
         return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
     }
 
+    protected function isWindows(): bool
+    {
+        return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+    }
+
     private function doTestFileMatchesExpectedContent(
         SmartFileInfo $originalFileInfo,
         SmartFileInfo $expectedFileInfo,

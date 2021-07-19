@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Testing\PHPUnit;
 
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\Constraint\IsEqual;
 
 /**
@@ -45,11 +46,11 @@ trait PlatformAgnosticAssertions
         parent::assertFileExists($expectedFile, $message);
 
         $expectedString = self::getNormalizedFileContents($expectedFile);
-        $constraint = new IsEqual($expectedString);
+        $isEqual = new IsEqual($expectedString);
 
         $actualString = self::normalize($actualString);
 
-        parent::assertThat($actualString, $constraint, $message);
+        parent::assertThat($actualString, $isEqual, $message);
     }
 
     /**
@@ -61,22 +62,21 @@ trait PlatformAgnosticAssertions
         static::assertFileExists($expected, $message);
         static::assertFileExists($actual, $message);
 
-        $constraint = new IsEqual(self::getNormalizedFileContents($expected));
+        $isEqual = new IsEqual(self::getNormalizedFileContents($expected));
 
-        static::assertThat(self::getNormalizedFileContents($actual), $constraint, $message);
+        static::assertThat(self::getNormalizedFileContents($actual), $isEqual, $message);
     }
 
-    private static function normalize(string $string)
+    private static function normalize(string $string): array | string
     {
         $string = str_replace("\r\n", "\n", $string);
-        $string = str_replace(DIRECTORY_SEPARATOR, '/', $string);
 
-        return $string;
+        return str_replace(DIRECTORY_SEPARATOR, '/', $string);
     }
 
     private static function getNormalizedFileContents(string $filePath): string
     {
-        $expectedString = file_get_contents($filePath);
+        $expectedString = FileSystem::read($filePath);
         return self::normalize($expectedString);
     }
 }
