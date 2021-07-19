@@ -8,13 +8,15 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
+use Rector\CodingStyle\Reflection\VendorLocationDetector;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class ParentClassMethodTypeOverrideGuard
 {
     public function __construct(
-        private NodeNameResolver $nodeNameResolver
+        private NodeNameResolver $nodeNameResolver,
+        private VendorLocationDetector $vendorLocationDetector
     ) {
     }
 
@@ -39,6 +41,10 @@ final class ParentClassMethodTypeOverrideGuard
 
             if (! $ancestorClassReflection->hasMethod($methodName)) {
                 continue;
+            }
+
+            if ($this->vendorLocationDetector->detectFunctionLikeReflection($ancestorClassReflection)) {
+                return true;
             }
 
             $fileName = $ancestorClassReflection->getFileName();
